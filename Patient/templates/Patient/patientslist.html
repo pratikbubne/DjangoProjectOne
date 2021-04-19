@@ -1,0 +1,59 @@
+{% extends "home.html" %}
+{% load static %}
+{%  block content %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'app.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script defer src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script defer src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-info">Patients</h1><br>
+  <table class="table table-bordered table-striped" id="myTable">
+    <thead>
+      <tr>
+        <th>Patient Name</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Edit</th>
+      </tr>
+    </thead>
+      <tbody>
+      {% for patientInfo in patientData %}
+      <tr>
+          <td>{{ patientInfo.patientName }}</td>
+          <td>{{ patientInfo.age }}</td>
+          <td>{{ patientInfo.gender }}</td>
+          <td>{{ patientInfo.phone }}</td>
+          <td>{{patientInfo.email}}</td>
+              {% if patientInfo.email == "" %}
+                  <td><a href="{% url 'editPatient' patientInfo.patientName patientInfo.age patientInfo.gender patientInfo.phone  patientInfo.patientId ' ' %}"> Edit </a>
+                  </td>
+                  {% else %}
+                  <td><a href="{% url 'editPatient' patientInfo.patientName patientInfo.age patientInfo.gender patientInfo.phone  patientInfo.patientId patientInfo.email %}"> Edit </a>
+                  </td>
+              {% endif %}
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</div>
+<script>
+$(document).ready(function() {
+    $('#myTable').DataTable({
+    "lengthMenu": [[ 5, 10, -1], [ 5, 10, "All"]],
+    });
+    $.fn.DataTable.ext.pager.numbers_length = 7;
+} );
+</script>
+</body>
+</html>
+{% endblock %}

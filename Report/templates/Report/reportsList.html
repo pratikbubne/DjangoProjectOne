@@ -1,0 +1,60 @@
+{% extends "home.html" %}
+{% load static %}
+{% block content %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'app.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script defer src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script defer src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+</head>
+<body>
+<h1 class="text-info">
+  Report
+</h1>
+<div>
+  <br>
+  <table  id="myTable" class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Visit Id</th>
+        <th>Patient Name</th>
+        <th>Report Date</th>
+        <th>Phone</th>
+        <th>Report Name</th>
+        <th>Patient Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for report in reportData %}
+        <tr>
+          <td>{{ report.visitId }}</td>
+          <td>{{ report.patientName }}</td>
+          <td>{{ report.reportDate }}</td>
+          <td>{{ report.patientNumber }}</td>
+          <td><a href="{% url 'displayreport' report.reportId %}" target="_blank" style="color:black;"> {{ report.reportName }}</a></td>
+          <td>{{ report.patientEmail }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'addReport' %}" class="btn btn-primary btn-lg Addbton" role="button">Add Report</a>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#myTable').DataTable({
+    "lengthMenu": [[ 5, 10, -1], [ 5, 10, "All"]],
+    "order": [[ 0, "desc" ]]
+    });
+    $.fn.DataTable.ext.pager.numbers_length = 7;
+} );
+</script>
+</body>
+</html>
+{% endblock %}

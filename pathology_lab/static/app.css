@@ -1,0 +1,31 @@
+/*Offer.html*/
+.Offermain {
+            position: relative;
+            width: 60%;
+            left: 20%;
+            padding-top: 20px;
+      }
+
+/*Common For All Tables(List View)*/
+td{text-align:center;}
+tr{text-align:center;}
+thead{text-align:center; background:#007bff;}
+
+/*reportlist*/
+a{color: black;}
+
+/*Common css for All*/
+h1 {
+    text-align: center;
+    font-family: 'DM Serif Text', serif;
+   }
+.main {
+       position: relative;
+       width: 40%;
+       left: 30%;
+      }
+.Addbton{
+            position: absolute;
+            left:85%;
+            color: white;
+           }

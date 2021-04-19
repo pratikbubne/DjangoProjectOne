@@ -1,0 +1,80 @@
+{% extends "home.html" %}
+{% load static %}
+{% block content %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'app.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script defer src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script defer src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+    <script type = "text/JavaScript">
+         <!--
+            function AutoRefresh( t ) {
+               setTimeout("location.reload(true);", t);
+            }
+         //-->
+    </script>
+</head>
+<body onload = "JavaScript:AutoRefresh(900000);">
+<div class="container">
+    <h1 class="text-info">
+        Visits
+    </h1><br>
+    <table class="table table-bordered table-striped " id="myTable">
+        <thead>
+        <tr>
+            <th>Visit ID</th>
+            <th>Patient Name</th>
+            <th>Test Names</th>
+            <th>Date & Time</th>
+            <th>Patient Number</th>
+            <th>User Number</th>
+            <th>Patient Email</th>
+            <th>Diagnostic</th>
+        </tr>
+        </thead>
+
+        <tbody>
+            {% for visit in visitData %}
+              <tr>
+                <td>{{ visit.visitId }}</td>
+                <td>{{ visit.patientName }}</td>
+                <td>{{ visit.testName }}</td>
+                <td>{{ visit.date }}  {{ visit.time }}</td>
+                <td>{{ visit.patientNumber }}</td>
+                <td>{{visit.loginName}}</td>
+                <td>{{ visit.patientEmail }}</td>
+
+                  {% if visit.url == "" %}
+                    <td> </td>
+
+                    {% else %}
+                        <td><a href="{{visit.url}}" target="_blank">Diagnostic</a></td>
+                  {% endif %}
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'addVisit' %}" class="btn btn-primary btn-lg Addbton" role="button" >
+        Add Visit
+    </a>
+</div>
+<script>
+$(document).ready(function() {
+    $('#myTable').DataTable({
+    "lengthMenu": [[ 5, 10, -1], [ 5, 10, "All"]],
+    "order": [[ 0, "desc" ]]
+    });
+    $.fn.DataTable.ext.pager.numbers_length = 7;
+} );
+</script>
+
+
+</body>
+</html>
+{% endblock %}

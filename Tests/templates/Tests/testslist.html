@@ -1,0 +1,59 @@
+{% extends "home.html" %}
+{% load static %}
+{% block content %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'app.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script defer src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script defer src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+</head>
+<body>
+<h1 class="text-info">
+  Tests
+</h1><br>
+<div class="container">
+  <table  id="myTable" class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Test ID</th>
+        <th>Test Name</th>
+        <th>Price</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for testInfo in testInfos %}
+        <tr>
+          <td>{{ testInfo.testId }}</td>
+          <td>{{ testInfo.testName }}</td>
+          <td>{{ testInfo.price }}</td>
+          <td id="edit"><a href="{% url 'editTest' testInfo.testName testInfo.price testInfo.testId %}"> Edit </a></td>
+          <td id="delete"><a href="{% url 'deletetest' testInfo.testName testInfo.price testInfo.testId%}"> Delete </a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'addTest' %}" class="btn btn-primary btn-lg Addbton" role="button">
+    Add Test
+  </a>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#myTable').DataTable({
+    "lengthMenu": [[ 5, 10, -1], [ 5, 10, "All"]],
+    "order": [[ 0, "desc" ]]
+    });
+    $.fn.DataTable.ext.pager.numbers_length = 7;
+} );
+</script>
+</body>
+</html>
+{% endblock %}
